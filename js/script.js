@@ -12,6 +12,12 @@ const repoSection = document.querySelector(".repos")
 //section where individual repo data appears
 const repoInfoSection = document.querySelector(".repo-data");
 
+//PART 4
+//back to repo gallery button
+const backToRepoGallery = document.querySelector("button.view-repos");
+//input to search by name
+const filterInput = document.querySelector("input.filter-repos");
+
 //PART 1
 const username = "RamyaKasara";
 
@@ -50,6 +56,9 @@ const getRepoList = async function(){
 //getRepoList();
 
 const showRepoList = function(repoData){
+    //PART 4
+    //show search bar
+    filterInput.classList.remove("hide");
     for(let repo of repoData){
         const repoItem = document.createElement("li");
         repoItem.classList.add("repo");
@@ -97,4 +106,31 @@ const showSpecificRepoInfo = function(repoInfo, languages){
     repoInfoSection.append(repoDiv);
     repoInfoSection.classList.remove("hide");
     repoSection.classList.add("hide");
+    //PART 4
+    backToRepoGallery.classList.remove("hide");
 };
+
+//PART 4
+backToRepoGallery.addEventListener("click", function(){
+    repoSection.classList.remove("hide");
+    repoInfoSection.classList.add("hide");
+    backToRepoGallery.classList.add("hide");
+});
+
+//dynamic search
+filterInput.addEventListener("input", function(e){
+    const val = e.target.value;
+    //console.log(val);
+    const repos = document.querySelectorAll(".repo");
+    //Selects all that have the class "repo" ie selects all repo list items
+    //console.log(repo);
+    const lowerCaseSearchTerm = val.toLowerCase();
+    for(let repo of repos){
+        const repoName = repo.innerText.toLowerCase();
+        if(repoName.includes(lowerCaseSearchTerm))
+            repo.classList.remove("hide");
+        else
+            repo.classList.add("hide");
+
+    }
+});
